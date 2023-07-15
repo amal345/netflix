@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MovieApiService } from 'src/app/service/movie-api-service.service';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { MovieApiServiceService } from 'src/app/service/movie-api-service.service';
+import {environment} from './../../../environments/environment'
 
 @Component({
   selector: 'app-home',
@@ -8,15 +9,27 @@ import { MovieApiService } from 'src/app/service/movie-api-service.service';
 })
 export class HomeComponent implements OnInit {
   
-  constructor(private service: MovieApiService) { }
+  imagePath = environment.imagePath;
+  bannerResult: any = [];
+  trendingMovieResult: any = [];
+  constructor(private service: MovieApiServiceService) { }
   ngOnInit(): void {
-    this.bannerData()
+    this.bannerData();
+    this.trendingMovieData()
   }
 
  //bannerData 
   bannerData() {
-    this.service.bannerApiData().subscribe(data =>
-      console.log(data,"bannerresulr#")
-    )
+    this.service.bannerApiData().subscribe((data) => {
+      // console.log("result =>", data)
+      this.bannerResult = data?.results
+    })
+  }
+
+  trendingMovieData() {
+    this.service.trendingMoviesApiData().subscribe((data) => {
+      console.log("trending Movie data", data)
+      this.trendingMovieResult=data?.results
+    })
   }
 }

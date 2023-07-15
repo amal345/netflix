@@ -4,24 +4,17 @@ import { Component, HostListener,OnInit,isDevMode } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'netflix';
-  navbg: any;
-  ngOnInit() {
-    if (isDevMode()) {
-      console.log('Development!');
-      
-    } else {
-      console.log('Production!');
-    }
-  }
-  @HostListener('document:scroll') scrollover() {
+  navbg: any
+  @HostListener('document:scroll') onWindowScroll() {
     console.log(document.body.scrollTop, 'scrolllength#');
-    if (document.body.scrollTop || document.documentElement.scrollTop) {
+     if (window.scrollY) {
       this.navbg = {
         'background-color': '#000000'
       }
-    } else {
+    }
+    else {
       this.navbg = {}
     }
   }
